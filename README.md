@@ -1,7 +1,7 @@
 # DobAgeCalc
 
-### Author
-    C. Manognan
+**Author**: 
+[C. Manognan](https://github.com/Manognan2046)
 ---
 **DobAgeCalc** is a versatile Java-based console application designed to calculate either a person's age based on their date of birth (DOB) or their date of birth based on a given age. The application supports multiple date formats and custom delimiters, offering flexibility for various use cases.
 
