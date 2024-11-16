@@ -247,7 +247,7 @@ public class DobAgeCalc {
         }
 
         if (diffDay >= 0 && diffMonth >= 0 && diffYear >= 0) {
-            System.out.println("Your age is " + diffDay + " days " + diffMonth + " months " + diffYear + " years.");
+            System.out.println("Your age is (DD, MM, YYYY): " + diffDay + " days, " + diffMonth + " months, " + diffYear + " years.");
         }
         else {
             throw new IllegalArgumentException("Entered date is after the reference/today's date. Please try again.");
@@ -291,7 +291,7 @@ public class DobAgeCalc {
             throw new IllegalArgumentException("Calculated date is invalid. Please check your input.");
         }
 
-        System.out.println("Your DOB is on " + birthDay + dlc + birthMonth + dlc + birthYear + ".");
+        System.out.println("Your DOB is on (DD, MM, YYYY): " + birthDay + dlc + birthMonth + dlc + birthYear + ".");
     }
     
     // Parses date parts from a given string based on the format and delimiter
