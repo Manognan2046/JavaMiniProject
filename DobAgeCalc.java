@@ -5,7 +5,8 @@ public class DobAgeCalc {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         boolean flag = true;
-
+        
+        // Displaying input format instructions to the user
         System.out.println("""
                 The Date format could be\s
                 i) YYYYdlcMMdlcDD (international style)
@@ -17,22 +18,27 @@ public class DobAgeCalc {
                 """);
         while (flag) {
             try {
+                // Taking and validating user inputs
                 String inp = removeWhitespace(takeInp());
                 String ref = removeWhitespace(takeRef(inp));
                 String format = removeWhitespace(takeFormat());
                 String dlc = removeWhitespace(takeDlc());
-
+                
+                // Checking if the delimiter matches the format
                 if (!checkDlcFormat(format, dlc)) {
                     System.out.println("The delimiter in the date format does not match the entered delimiter or the entered format is wrong. Please enter all the values again.");
                     continue;
                 }
-
+                
+                // Extracting the actual date or age input
                 String[] splitInput = inp.split("=");
                 String actualInp = splitInput[1];
-
+                
+                // Parsing the date or age parts
                 int[] dateParts = dateFinder(actualInp, format, dlc);
                 int[] curParts = dateFinder(ref, format, dlc);
 
+                // Checking whether input is DOB or AGE and calculating accordingly
                 if (inp.charAt(0) == 'D' || inp.charAt(0) == 'd') {
                     ageFinder(dateParts, curParts);
                 } else if (inp.charAt(0) == 'A' || inp.charAt(0) == 'a') {
@@ -57,6 +63,7 @@ public class DobAgeCalc {
         sc.close();
     }
 
+    // Method to validate input day, month, and year
     public static boolean isValidInput(int day, int month, int year) {
         if (month < 1 || month > 12) {
             System.out.println("Error: Month must be between 1 and 12.");
@@ -73,6 +80,7 @@ public class DobAgeCalc {
         return isValidDate(day, month, year);
     }
 
+    // Method to check if a date is valid considering the month and year
     public static boolean isValidDate(int day, int month, int year) {
         if (month < 1 || month > 12) {
             System.out.println("Error: Month must be between 1 and 12.");
@@ -110,6 +118,7 @@ public class DobAgeCalc {
         return true;
     }
 
+    // Verifies if the format and delimiter are correct
     public static boolean checkDlcFormat(String format, String dlc) {
         int count = 0;
         for (char c : format.toCharArray()) {
@@ -121,10 +130,12 @@ public class DobAgeCalc {
         return count == 2;
     }
 
+    // Removes all whitespace characters from a string
     public static String removeWhitespace(String input) {
         return input.replaceAll("\\s+", "");
     }
 
+    // Prompts the user to enter DOB or AGE
     public static String takeInp() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the DOB or AGE: ");
@@ -138,6 +149,7 @@ public class DobAgeCalc {
         }
     }
 
+    // Prompts the user to enter a reference date
     public static String takeRef(String inp) {
         Scanner sc = new Scanner(System.in);
         if (inp.startsWith("DOB=") || inp.startsWith("dob=")) {
@@ -163,12 +175,14 @@ public class DobAgeCalc {
         return "";
     }
 
+    // Prompts the user to enter the date format
     public static String takeFormat() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the date format: ");
         return sc.nextLine();
     }
 
+    // Prompts the user to enter the delimiter
     public static String takeDlc() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the delimiter: ");
@@ -180,10 +194,12 @@ public class DobAgeCalc {
         return dlc;
     }
 
+    // Checks if a year is a leap year
     public static boolean isLeapYear(int year) {
         return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
     }
 
+    // Returns the number of days in a given month of a year
     public static int daysInMonth(int month, int year) {
         return switch (month) {
             case 1, 3, 5, 7, 8, 10, 12 -> 31;
@@ -192,11 +208,13 @@ public class DobAgeCalc {
             default -> throw new IllegalArgumentException("Invalid month: " + month);
         };
     }
-
+    
+    // Ensures the given date is before or equal to the reference date
     public static boolean checkDate(int userDay, int userMonth, int userYear, int currentDay, int currentMonth, int currentYear) {
         return userYear <= currentYear && (userYear != currentYear || userMonth <= currentMonth) && (userYear != currentYear || userMonth != currentMonth || userDay <= currentDay);
     }
 
+    // Calculates the age based on DOB and the reference date
     public static void ageFinder(int[] dateParts, int[] curParts) {
         int userDay = dateParts[0], userMonth = dateParts[1], userYear = dateParts[2];
         int day = curParts[0], month = curParts[1], year = curParts[2];
@@ -235,7 +253,8 @@ public class DobAgeCalc {
             throw new IllegalArgumentException("Entered date is after the reference/today's date. Please try again.");
         }
     }
-
+    
+    // Calculates the DOB based on AGE and the reference date
     public static void dobFinder(int[] ageParts, int[] curParts, String dlc) {
         int ageYears = ageParts[2];
         int ageMonths = ageParts[1];
@@ -274,7 +293,8 @@ public class DobAgeCalc {
 
         System.out.println("Your DOB is on " + birthDay + dlc + birthMonth + dlc + birthYear + ".");
     }
-
+    
+    // Parses date parts from a given string based on the format and delimiter
     public static int[] dateFinder(String inp, String format, String dlc) {
         String[] parts = inp.split(dlc);
         int day, month, year;
